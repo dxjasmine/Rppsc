@@ -4,11 +4,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Rppsc is to ...
+The goal of Rppsc is to plot the protein sequence composition.
 
 ## Installation
 
-You can install the released version of Rppsc from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of Rppsc using:
 
 ``` r
 install.packages("Rppsc")

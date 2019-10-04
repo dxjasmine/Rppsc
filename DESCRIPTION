@@ -8,12 +8,10 @@ Description: This is a toolkit to plot protesin sequence composition for protein
 Depends: R (>= 3.1.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
-#LazyData: true
+LazyData: true
 RoxygenNote: 6.1.1
 Imports: 
     protr,
     ggplot2,
-    Rcpi,
-    ape,
-    RColorBrewer,
+    gplots,
     BiocManager

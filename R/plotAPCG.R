@@ -10,21 +10,22 @@
 #'This function returns a full composition graph given the proteins.
 #'
 #' @examples
-#' p <- plotAPCG(file = "data/pdbSeq.csv")
+#' p <- plotAPCG(file = "data/proSeq.rda")
 #' print(p)
 #'
 #' @export
 #' @import protr
-plotAPCG <- function(file="protrdata/pdbSeq.csv") {
-
-
-  proSeq = read.table("protrdata/pdbSeq.csv", header = TRUE, sep= ",",colClasses=c("character"))
+#' @import gplots
+plotAPCG <- function(file = "data/proSeq.rda") {
+  if(!(file_test("-f",file))){
+    warning("Invalid file path.")
+    return()
+  }
+  load(file)
+  proSeq = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
+  #proseq = read.table(file, header = TRUE, sep= ",",colClasses=c("character"))
   tsize = nrow(proSeq)
-  #allpdb = unique(proSeq$pdb)
-  #rowname = c(allpdb)
   colname = c("hydrophobicity","vwfVolume","polarity", "polarizability","desolvation")
-  #m <- matrix(nrow = tsize,ncol= 5, dimnames = list(rowname, colname))
-  #m <- matrix(data = NA, nrow = tsize,ncol= 5, dimnames = list(rowname, colname))
   m = NULL
   for(i in 1:tsize ) {
     pdb = proSeq[i,1]
@@ -49,12 +50,13 @@ plotAPCG <- function(file="protrdata/pdbSeq.csv") {
     }
 
   }
-  install.packages("gplots")
-  library(gplots)
+  if (!require("gplots")) {
+    install.packages("gplots")
+    library(gplots,warn.conflicts = FALSE)
+  }
   m= scale(m)
   heatmap.2(as.matrix(m))
-  print(m)
-  return(p)
+  return(m)
 
 }
 

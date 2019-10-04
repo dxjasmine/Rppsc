@@ -18,23 +18,32 @@
 #'This function returns a composition graph given the attribute type.
 #'
 #' @examples
-#' p <- plotCG(file = "protrdata/pdbSeq.csv",type = 1)
+#' p <- plotCG(file = "data/proSeq.rda",type = 1)
 #' print(p)
 #'
 #' @export
 #' @import ggplot2
 #' @import protr
-plotCG <- function(file = "protrdata/pdbSeq.csv",type = 1) {
+plotCG <- function(file = "data/proSeq.rda",type = 1) {
   #prepare data: from composition double to table
-
+  if(!(type<6 & type>0 & type %% 1== 0)) {
+    warning("Invalid value. Should be integer between 1-5")
+    return()
+  }
+  if(!(file_test("-f",file))){
+    warning("Invalid file path.")
+    return()
+  }
   if (!require("ggplot2")) {
     install.packages("ggplot2")
     library(ggplot2)
   }
-  proSeq = read.table("protrdata/pdbSeq.csv", header = TRUE, sep= ",",colClasses=c("character"))
+  load(file)
+  proSeq = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
   tsize = nrow(proSeq)
   pname = NULL
   pdata = NULL
+
   for(i in 1:tsize ) {
     if (!require("protr")) {
       install.packages("protr")
@@ -51,7 +60,7 @@ plotCG <- function(file = "protrdata/pdbSeq.csv",type = 1) {
 
 
     }else{
-      pname = c(pname, proSeq[i,1])
+      pname = rbind(pname, proSeq[i,1],row.names = NULL)
       pdata = cbind(pdata, data.matrix(extractCTDC (proSeq[i,2])),row.names = NULL)
       hydro = cbind(hydro, data.matrix(extractCTDC (proSeq[i,2]))[1:3,1],row.names = NULL)
       vdm = cbind(vdm, data.matrix(extractCTDC (proSeq[i,2]))[4:6,1],row.names = NULL)
@@ -76,7 +85,7 @@ plotCG <- function(file = "protrdata/pdbSeq.csv",type = 1) {
 
   supp=rep(pname, each=3)
   len=c(len_type)
-  df <- data.frame(supp=rep(pname, each=3),category=rep(attrname, tsize),len=hydro)
+  df <- data.frame(supp=rep(c(pname), each=3),category=rep(attrname, tsize),len=hydro)
   p = ggplot(data=df, aes(x=supp, y=len, fill=category)) +
     geom_bar(stat="identity") +
     ylim(-1,1) +
@@ -88,7 +97,7 @@ plotCG <- function(file = "protrdata/pdbSeq.csv",type = 1) {
     coord_polar(start = 0) +
     ggtitle("Protein Sequence composition")
 
-  return
+  return(p)
 
 
 }
