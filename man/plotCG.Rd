@@ -4,7 +4,8 @@
 \alias{plotCG}
 \title{Plot Composition Graph}
 \usage{
-plotCG(file = "protrdata/pdbSeq.csv", type = 1)
+plotCG(file = system.file("data/proSeq.rda", package = "Rppsc"),
+  type = 1)
 }
 \arguments{
 \item{file}{input csv file containing the protein name and sequence}
@@ -26,7 +27,8 @@ at a time. Attributes include hydrophobicity, van der Waals volume, polarity,
 polarizability, and desolvation
 }
 \examples{
-p <- plotCG(file = "protrdata/pdbSeq.csv",type = 1)
+f = system.file("data/proSeq.rda",package = "Rppsc")
+p <- function(f,type = 1)
 print(p)
 
 }

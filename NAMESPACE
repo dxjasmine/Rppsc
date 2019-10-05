@@ -3,4 +3,6 @@
 export(plotAPCG)
 export(plotCG)
 import(ggplot2)
+import(gplots)
 import(protr)
+import(utils)

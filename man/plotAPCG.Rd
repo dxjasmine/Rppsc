@@ -4,21 +4,24 @@
 \alias{plotAPCG}
 \title{Plot All Protein Composition Graph}
 \usage{
-plotAPCG(file = "protrdata/pdbSeq.csv")
+plotAPCG(file = "data/proSeq.rda")
 }
 \arguments{
-\item{file}{input csv file containing list of protein name and sequence}
+\item{file}{input csv file containing the list of pdb id and sequence}
 }
 \value{
-This function returns a full composition graph given the proteins.
+This function returns a matrix of composition descriptor infomation as well as
+a full composition graph given the proteins.
 }
 \description{
-A function that plots a comprehensive composition mapping given protein list.
+A function that plots a comprehensive composition mapping given a protein list.
 The composition descriptors includes hydrophobicity, van der Waals volume,
-polarity, polarizability and desolvation.
+polarity, polarizability and desolvation. A hierarchical row and column clustering
+will also be displayed on the side to showing the similarity analysis
 }
 \examples{
-p <- plotAPCG(file = "data/pdbSeq.csv")
-print(p)
+f = system.file("data/proSeq.rda",package = "Rppsc")
+p <- plotAPCG(f)
+p
 
 }

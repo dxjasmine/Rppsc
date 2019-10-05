@@ -15,16 +15,19 @@
 #' 5: desolvation
 #'
 #' @return
-#'This function returns a composition graph given the attribute type.
+#' This function returns a composition graph given the attribute type.
 #'
 #' @examples
-#' p <- plotCG(file = "data/proSeq.rda",type = 1)
+#' f = system.file("data/proSeq.rda",package = "Rppsc")
+#' p <- function(f,type = 1)
 #' print(p)
 #'
 #' @export
 #' @import ggplot2
 #' @import protr
-plotCG <- function(file = "data/proSeq.rda",type = 1) {
+#' @import utils
+
+plotCG <- function(file = system.file("data/proSeq.rda",package = "Rppsc"),type = 1) {
   #prepare data: from composition double to table
   if(!(type<6 & type>0 & type %% 1== 0)) {
     warning("Invalid value. Should be integer between 1-5")
@@ -38,17 +41,20 @@ plotCG <- function(file = "data/proSeq.rda",type = 1) {
     install.packages("ggplot2")
     library(ggplot2)
   }
+  if (!require("protr")) {
+    install.packages("protr")
+    library(protr)
+  }
   load(file)
   proSeq = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
   tsize = nrow(proSeq)
   pname = NULL
   pdata = NULL
+  category = NULL
+
 
   for(i in 1:tsize ) {
-    if (!require("protr")) {
-      install.packages("protr")
-      library(protr)
-    }
+
     if(is.null(pname)){
       pname = proSeq[i,1]
       pdata = data.matrix(extractCTDC (proSeq[i,2]))
@@ -85,8 +91,8 @@ plotCG <- function(file = "data/proSeq.rda",type = 1) {
 
   supp=rep(pname, each=3)
   len=c(len_type)
-  df <- data.frame(supp=rep(c(pname), each=3),category=rep(attrname, tsize),len=hydro)
-  p = ggplot(data=df, aes(x=supp, y=len, fill=category)) +
+  dataf <- data.frame(supp=rep(c(pname), each=3),category=rep(attrname, tsize),len=hydro)
+  p = ggplot(data=dataf, aes(x=supp, y=len, fill=category)) +
     geom_bar(stat="identity") +
     ylim(-1,1) +
     theme_minimal() +

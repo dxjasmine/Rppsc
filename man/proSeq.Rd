@@ -25,7 +25,9 @@ This dataset include a list of protein id(pdb code) and sequence.
 }
 \examples{
 \dontrun{
- data(proSeq)
+ proSeq
+ #usr with function to get protein compositon
+ plotCG(proSeq)
 }
 }
 \keyword{datasets}

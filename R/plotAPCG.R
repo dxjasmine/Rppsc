@@ -1,25 +1,37 @@
-#'Plot All Protein Composition Graph
+#' Plot All Protein Composition Graph
 #'
-#' A function that plots a comprehensive composition mapping given protein list.
+#' A function that plots a comprehensive composition mapping given a protein list.
 #' The composition descriptors includes hydrophobicity, van der Waals volume,
-#' polarity, polarizability and desolvation.
+#' polarity, polarizability and desolvation. A hierarchical row and column clustering
+#' will also be displayed on the side to showing the similarity analysis
 #'
-#' @param file input csv file containing list of protein name and sequence
+#' @param file input csv file containing the list of pdb id and sequence
 #'
 #' @return
-#'This function returns a full composition graph given the proteins.
+#' This function returns a matrix of composition descriptor infomation as well as
+#' a full composition graph given the proteins.
 #'
 #' @examples
-#' p <- plotAPCG(file = "data/proSeq.rda")
-#' print(p)
+#' f = system.file("data/proSeq.rda",package = "Rppsc")
+#' p <- plotAPCG(f)
+#' p
 #'
 #' @export
 #' @import protr
 #' @import gplots
+#' @import utils
 plotAPCG <- function(file = "data/proSeq.rda") {
   if(!(file_test("-f",file))){
     warning("Invalid file path.")
     return()
+  }
+  if (!require("protr")) {
+    install.packages("protr")
+    library(protr)
+  }
+  if (!require("gplots")) {
+    install.packages("gplots")
+    library(gplots,warn.conflicts = FALSE)
   }
   load(file)
   proSeq = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
@@ -30,10 +42,7 @@ plotAPCG <- function(file = "data/proSeq.rda") {
   for(i in 1:tsize ) {
     pdb = proSeq[i,1]
     pseq = proSeq[i,2]
-    if (!require("protr")) {
-      install.packages("protr")
-      library(protr)
-    }
+
     pdata = extractCTDC (pseq)
 
     hydro = pdata[[3]]
@@ -50,13 +59,10 @@ plotAPCG <- function(file = "data/proSeq.rda") {
     }
 
   }
-  if (!require("gplots")) {
-    install.packages("gplots")
-    library(gplots,warn.conflicts = FALSE)
-  }
-  m= scale(m)
-  heatmap.2(as.matrix(m))
-  return(m)
+  dm = as.data.frame(m)
+  mp = heatmap.2(scale(m))
+
+  return(list(dm,mp))
 
 }
 

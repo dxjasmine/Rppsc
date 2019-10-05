@@ -14,4 +14,7 @@ Imports:
     protr,
     ggplot2,
     gplots,
-    BiocManager
+    BiocManager,
+    utils
+Suggests: 
+    testthat
