@@ -12,15 +12,19 @@
 #' a full composition graph given the proteins.
 #'
 #' @examples
-#' f = system.file("data/proSeq.rda",package = "Rppsc")
-#' p <- plotAPCG(f)
-#' p
+#' filepath = "./data/proSeq.rda"
+#' composition_plot <- plotAPCG(filepath)
+#' protein_seq_plot
 #'
 #' @export
 #' @import protr
 #' @import gplots
 #' @import utils
-plotAPCG <- function(file = "data/proSeq.rda") {
+library(protr)
+library(gplots)
+library(utils)
+
+plotAPCG <- function(file = "./data/proSeq.rda") {
   if(!(file_test("-f",file))){
     warning("Invalid file path.")
     return()

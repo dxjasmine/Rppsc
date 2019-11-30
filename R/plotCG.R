@@ -18,23 +18,22 @@
 #' This function returns a composition graph given the attribute type.
 #'
 #' @examples
-#' f = system.file("data/proSeq.rda",package = "Rppsc")
-#' p <- function(f,type = 1)
-#' print(p)
+#' filepath = "./data/proSeq.rda"
+#' p <- plotCG(filepath,type = 1) # default type is to show hydrophobicity composition
+#'
 #'
 #' @export
 #' @import ggplot2
 #' @import protr
 #' @import utils
 
-plotCG <- function(file = system.file("data/proSeq.rda",package = "Rppsc"),type = 1) {
+plotCG <- function(file = "./data/proSeq.rda",type = 1) {
   #prepare data: from composition double to table
   if(!(type<6 & type>0 & type %% 1== 0)) {
-    warning("Invalid value. Should be integer between 1-5")
-    return()
+    stop("Invalid value. Should be integer between 1-5")
   }
   if(!(file_test("-f",file))){
-    warning("Invalid file path.")
+    stop("Invalid file path.")
     return()
   }
   if (!require("ggplot2")) {
@@ -92,15 +91,9 @@ plotCG <- function(file = system.file("data/proSeq.rda",package = "Rppsc"),type 
   supp=rep(pname, each=3)
   len=c(len_type)
   dataf <- data.frame(supp=rep(c(pname), each=3),category=rep(attrname, tsize),len=hydro)
-  p = ggplot(data=dataf, aes(x=supp, y=len, fill=category)) +
+    p = ggplot(data=dataf, aes(x=supp, y=len, fill=category)) +
     geom_bar(stat="identity") +
-    ylim(-1,1) +
-    theme_minimal() +
-    theme(
-      plot.title = element_text(hjust = 0.5),
-      axis.title = element_blank(),
-      panel.grid = element_blank(),) +
-    coord_polar(start = 0) +
+
     ggtitle("Protein Sequence composition")
 
   return(p)
