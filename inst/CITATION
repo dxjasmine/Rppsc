@@ -1,0 +1,12 @@
+citHeader("To cite Rppsc in publications use:")
+
+citEntry(
+  entry    = "Unpublished",
+  title    = "R Package for Ploting Protein Sequence Compositon",
+  author   = "Jiayan Wang",
+  note     = "Unpublished"
+  year     = "2019",
+  textVersion = paste(
+
+  )
+)
