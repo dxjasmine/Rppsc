@@ -27,15 +27,17 @@
 #' @import protr
 #' @import utils
 
-plotCG <- function(file = "./data/proSeq.rda",type = 1) {
+library(utils)
+
+plotCG <- function(file = "",type = 1) {
   #prepare data: from composition double to table
   if(!(type<6 & type>0 & type %% 1== 0)) {
     stop("Invalid value. Should be integer between 1-5")
   }
-  if(!(file_test("-f",file))){
-    stop("Invalid file path.")
-    return()
-  }
+#  if(!(file_test("-f",file))){
+#    stop("Invalid file path.")
+#    return()
+#  }
   if (!require("ggplot2")) {
     install.packages("ggplot2")
     library(ggplot2)
@@ -44,7 +46,10 @@ plotCG <- function(file = "./data/proSeq.rda",type = 1) {
     install.packages("protr")
     library(protr)
   }
-  load(file)
+  #load(file)
+  if (file == ""){
+
+  }
   proSeq = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
   tsize = nrow(proSeq)
   pname = NULL
