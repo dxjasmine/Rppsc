@@ -30,7 +30,15 @@
 library(utils)
 data("proSeq")
 
-plotCG <- function(file = "",type = 1) {
+plotCG <- function(file = "",type) {
+  print(file)
+  print(type)
+
+  #=======
+  if (type == "hydrophobicity"){
+    type =1
+  }
+
 
   #prepare data: from composition double to table
   if(!(type<6 & type>0 & type %% 1== 0)) {
