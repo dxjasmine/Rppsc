@@ -1,5 +1,5 @@
 
-#'Plot Composition Graph
+#'Plot A protein Composition Graph
 #'
 #'A function that plots the composition of protein sequence given one attribute
 #'at a time. Attributes include hydrophobicity, van der Waals volume, polarity,
@@ -28,26 +28,20 @@
 #' @import utils
 
 library(utils)
-data("proSeq")
 
-plotCG <- function(file = "",type) {
+plotCG <- function(file = "proSeq",type= 1) {
   print(file)
   print(type)
 
-  #=======
-  if (type == "hydrophobicity"){
-    type =1
-  }
 
 
   #prepare data: from composition double to table
   if(!(type<6 & type>0 & type %% 1== 0)) {
     stop("Invalid value. Should be integer between 1-5")
   }
-  #  if(!(file_test("-f",file))){
-  #    stop("Invalid file path.")
-  #    return()
-  #  }
+  if(!(file_test("-f",file))){
+      stop("Invalid file path.")
+  }
   if (!require("ggplot2")) {
     install.packages("ggplot2")
     library(ggplot2)
@@ -57,12 +51,14 @@ plotCG <- function(file = "",type) {
     library(protr)
   }
   #load(file)
-  if (file == ""){
-
+  if (file == "proSeq"){
+    data("proSeq")
+    protein_sequence = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
+  }else{
+    raw_sequence = read.csv(filepath,header = TRUE,sep = ",")
+    protein_sequence = data.frame(lapply(raw_sequence, as.character), stringsAsFactors=FALSE)
   }
-  data("proSeq")
 
-  protein_sequence = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
   pdbid_set = protein_sequence$pdb
   tsize = nrow(protein_sequence)
   pname = NULL
@@ -94,7 +90,8 @@ plotCG <- function(file = "",type) {
 
   }
   len_type = switch(type, hydro, vdm, pol, polabil, desol)
-  attrname = switch(type, c("Polar","Neutral","Hydrophobic"),
+  attrname = switch(type,
+                    c("Polar","Neutral","Hydrophobic"),
                     c("van der Waals 0-2.78 ",
                       "van der Waals 2.95-4.0",
                       "van der Waals 4.03-8.08"),
