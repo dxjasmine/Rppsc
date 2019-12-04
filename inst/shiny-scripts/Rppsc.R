@@ -6,9 +6,17 @@ ui <- fluidPage(
   titlePanel("Rppsc: R Package for Plotting Protein Composition"),
   sidebarLayout(
     sidebarPanel(
+      actionButton("go", "Go"),
+      actionButton("plot_botton","Show compisiton plot"),
+
+      numericInput("n", "n", 1),
+
+
+      choice_list=list("hydrophobicity" = 1, "polarity"=2),
       checkboxGroupInput(inputId = "check_id",
-                         label = "Choose Chemical attribute:",
-                         c("hydrophobicity"= "hydro","polarity"= "pol")),
+                         label = "choose chemical attributes for composition analysis",
+                         choices =  choice_list,
+                         selected = choice_list),
       tableOutput("chem"),
 
       fileInput(inputId = "file1",
@@ -22,7 +30,11 @@ ui <- fluidPage(
     ),
     mainPanel(
       h1("Protein Composition plot"),
-      plotOutput('plot2')
+      #actionButton("plot_botton","Show compisiton plot"),
+      textOutput("selected_var"),
+      plotOutput("plot2")
+
+
     )
   )
 
@@ -34,11 +46,30 @@ ui <- fluidPage(
 
 # Define server logic ----
 server <- function(input, output) {
-  plot2 = plotCG( )
-  output$plot2 <- renderPlot({
-    plot2
-    #hist(rnorm(input$num))
+
+
+  randomVals <- eventReactive(input$go, {
+    input$n
   })
+
+
+
+  randomVals2 <- eventReactive(
+    input$plot_button, {
+    input$chem
+  })
+
+  output$selected_var <- renderText({
+    paste("You have selected", randomVals2())
+  })
+  output$plot2 <- renderPlot({
+
+    plotCG(file = "",type = randomVals2())
+  })
+
+
+
+
 
 }
 
