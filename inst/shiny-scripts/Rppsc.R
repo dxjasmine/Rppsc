@@ -1,79 +1,57 @@
+
 library(shiny)
 
-
-# Define UI ----
 ui <- fluidPage(
   titlePanel("Rppsc: R Package for Plotting Protein Composition"),
-  sidebarLayout(
-    sidebarPanel(
-      actionButton("go", "Go"),
-      actionButton("plot_botton","Show compisiton plot"),
 
-      numericInput("n", "n", 1),
+  fileInput(inputId = "file1",
+            label = "Select your sequence.fasta file",
+            multiple = FALSE),
+  textOutput("txt"),
+  actionButton("hydrophobicity", "hydrophobicity"),
+  actionButton("Van_Der_Waals", "Van Der Waals"),
+  actionButton("polarity", "polarity"),
+  actionButton("polarizability", "polarizability"),
+  actionButton("desolvation", "desolvation"),
 
-
-      choice_list=list("hydrophobicity" = 1, "polarity"=2),
-      checkboxGroupInput(inputId = "check_id",
-                         label = "choose chemical attributes for composition analysis",
-                         choices =  choice_list,
-                         selected = choice_list),
-      tableOutput("chem"),
-
-      fileInput(inputId = "file1",
-                label = "Select your sequence.fasta file",
-                multiple = FALSE),
-
-      sliderInput(inputId = "num",
-                  label = "Choose a number",
-                  value = 25, min = 1, max = 100),
-      plotOutput("hist")
-    ),
-    mainPanel(
-      h1("Protein Composition plot"),
-      #actionButton("plot_botton","Show compisiton plot"),
-      textOutput("selected_var"),
-      plotOutput("plot2")
-
-
-    )
-  )
-
-
-
-
-
+  hr(),
+  plotOutput("composition_plot")
 )
 
-# Define server logic ----
-server <- function(input, output) {
+server <- function(input, output){
+  v <- reactiveValues(
+    filepath = "proSeq",
+    type = NULL,
+    circular_plot = TRUE
+    )
 
-
-  randomVals <- eventReactive(input$go, {
-    input$n
+  observeEvent(input$hydrophobicity, {
+    v$type = 1
+  })
+  observeEvent(input$Van_Der_Waals, {
+    v$type = 2
+  })
+  observeEvent(input$polarity, {
+    v$type = 3
+  })
+  observeEvent(input$polarizability, {
+    v$type = 4
+  })
+  observeEvent(input$desolvation, {
+    v$type = 5
   })
 
+  output$composition_plot <- renderPlot({
+    if (is.null(v$type)) return()
+    #plotCG(file = V$filepath, type = v$type, circular_plot = v$circular_plot)
+    plotCG(file = v$filepath, type = v$type, circular_plot = v$circular_plot)
 
-
-  randomVals2 <- eventReactive(
-    input$plot_button, {
-    input$chem
   })
 
-  output$selected_var <- renderText({
-    paste("You have selected", randomVals2())
+  output$txt <- renderText({
+    paste("Click the following button to see the corresponding protein composition")
   })
-  output$plot2 <- renderPlot({
-
-    plotCG(file = "",type = randomVals2())
-  })
-
-
-
-
-
 }
 
-# Run the app ----
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
 
-#reference
