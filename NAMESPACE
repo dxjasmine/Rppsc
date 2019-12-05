@@ -2,7 +2,9 @@
 
 export(plotAPCG)
 export(plotCG)
+export(runRppsc)
 import(ggplot2)
 import(gplots)
 import(protr)
 import(utils)
+importFrom(shiny,runApp)

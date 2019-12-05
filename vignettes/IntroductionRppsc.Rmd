@@ -43,36 +43,15 @@ polarizability, and desolvation. The 5 attributes are frequently used evaluate t
 #Default data --"proSeq" are also provided
 hydrophobicity_plot <- plotCG(file = "proSeq", type= 1, circular_plot = TRUE)
 hydrophobicity_plot #call to view the plot
-von_der_waals_plot <- plotCG(file = "proSeq", type= 2, circular_plot = TRUE)
-von_der_waals_plot
-polarity_plot <- plotCG(file = "proSeq", type= 3, circular_plot = TRUE)
-polarity_plot
-polarizability_plot <- plotCG(file = "proSeq", type= 4, circular_plot = TRUE)
-polarizability_plot
-desolvation_plot <- plotCG(file = "proSeq", type= 5, circular_plot = TRUE)
-desolvation_plot
 ```
 
 ## Plotting sequence composition with 5 chemical attributes.
 
-```{r fig.width=7,fig.height=6}
-#user can use their own csv file providing pdbid and seuquence
-#Default data --"proSeq" are also provided
-hydrophobicity_plot <- plotCG(file = "proSeq", type= 1, circular_plot = TRUE)
-hydrophobicity_plot #call to view the plot
-von_der_waals_plot <- plotCG(file = "proSeq", type= 2, circular_plot = TRUE)
-von_der_waals_plot
-polarity_plot <- plotCG(file = "proSeq", type= 3, circular_plot = TRUE)
-polarity_plot
-polarizability_plot <- plotCG(file = "proSeq", type= 4, circular_plot = TRUE)
-polarizability_plot
-desolvation_plot <- plotCG(file = "proSeq", type= 5, circular_plot = TRUE)
-desolvation_plot
+
 ```
 
 ## Rppsc shiny app
-`Rppsc` can also be accessed as a shiny app.
-The app aims to show the visualization of the protein sequence composition with regard to 5 attributes. 
+`Rppsc` can also be accessed as a shiny ap to interactively view the features mentioned above. The app aims to show the visualization of the protein sequence composition with regard to 5 attributes. 
 
 
 
