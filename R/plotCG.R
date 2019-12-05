@@ -25,13 +25,11 @@
 #' @import ggplot2
 #' @import protr
 #' @import utils
-
-library(utils)
-library(ggplot2)
-library(protr)
-
-
 plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
+
+  library(utils)
+  library(ggplot2)
+  library(protr)
 
   #Check type value
   if(!(type<6 & type>0 & type %% 1== 0)) {

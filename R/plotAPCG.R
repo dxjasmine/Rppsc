@@ -19,12 +19,11 @@
 #' @import protr
 #' @import gplots
 #' @import utils
-
-library(protr)
-library(gplots)
-library(utils)
-
 plotAPCG <- function(file = "proSeq") {
+  library(protr)
+  library(gplots)
+  library(utils)
+
   #Validate file path
   if(!(file_test("-f",file)) & (file != "proSeq")){
     stop("Invalid file path.")
