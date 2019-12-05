@@ -60,7 +60,10 @@ five_attribute_map #call to view the plot
 ## Rppsc shiny app
 `Rppsc` can also be accessed as a shiny ap to interactively view the features mentioned above. The app aims to show the visualization of the protein sequence composition with regard to 5 attributes. 
 
+```{r fig.width=7,fig.height=6}
+runRppsc()
 
+```
 
 ## Reference
 Xiao, N., Cao, D.-S., Zhu, M.-F., & Xu, Q.-S. (2015). protr/ProtrWeb: R package and web server for generating various numerical representation schemes of protein sequences. Bioinformatics, 31(11), 1857–1859. https://doi.org/10.1093/bioinformatics/btv042
