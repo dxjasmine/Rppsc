@@ -46,17 +46,17 @@ plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
   #load the default data or from validated file path
   if (file == "proSeq"){
     data("proSeq")
-    protein_sequence = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
+    protein_sequence <- data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
   }else{
-    raw_sequence = read.csv(filepath,header = TRUE,sep = ",")
-    protein_sequence = data.frame(lapply(raw_sequence, as.character), stringsAsFactors=FALSE)
+    raw_sequence <- read.csv(filepath,header = TRUE,sep = ",")
+    protein_sequence <- data.frame(lapply(raw_sequence, as.character), stringsAsFactors=FALSE)
   }
 
   #get number of proteins in list
-  protein_num = nrow(protein_sequence)
+  protein_num <- nrow(protein_sequence)
 
   #all protein name
-  protein_name = NULL
+  protein_name <- NULL
 
 
 
@@ -67,29 +67,29 @@ plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
 
     #initiation
     if(is.null(protein_name)){
-      protein_name = protein_sequence[i,1]
-      hydro = data.matrix(extractCTDC (protein_sequence[i,2]))[1:3,1]
-      vdm = data.matrix(extractCTDC (protein_sequence[i,2]))[4:6,1]
-      pol = data.matrix(extractCTDC (protein_sequence[i,2]))[7:9,1]
-      polabil =data.matrix(extractCTDC (protein_sequence[i,2]))[10:12,1]
-      desol = data.matrix(extractCTDC (protein_sequence[i,2]))[19:21,1]
+      protein_name  <- protein_sequence[i,1]
+      hydro  <- data.matrix(extractCTDC (protein_sequence[i,2]))[1:3,1]
+      vdm  <- data.matrix(extractCTDC (protein_sequence[i,2]))[4:6,1]
+      pol  <- data.matrix(extractCTDC (protein_sequence[i,2]))[7:9,1]
+      polabil  <- data.matrix(extractCTDC (protein_sequence[i,2]))[10:12,1]
+      desol  <- data.matrix(extractCTDC (protein_sequence[i,2]))[19:21,1]
 
     #add new data
     }else{
-      protein_name = rbind(protein_name, protein_sequence[i,1],row.names = NULL)
-      hydro = cbind(hydro, data.matrix(extractCTDC (protein_sequence[i,2]))[1:3,1],row.names = NULL)
-      vdm = cbind(vdm, data.matrix(extractCTDC (protein_sequence[i,2]))[4:6,1],row.names = NULL)
-      pol =cbind(pol, data.matrix(extractCTDC (protein_sequence[i,2]))[7:9,1],row.names = NULL)
-      polabil =cbind(polabil, data.matrix(extractCTDC (protein_sequence[i,2]))[10:12,1],row.names = NULL)
-      desol = cbind(desol, data.matrix(extractCTDC (protein_sequence[i,2]))[19:21,1],row.names = NULL)
+      protein_name  <- rbind(protein_name, protein_sequence[i,1],row.names = NULL)
+      hydro  <- cbind(hydro, data.matrix(extractCTDC (protein_sequence[i,2]))[1:3,1],row.names = NULL)
+      vdm  <- cbind(vdm, data.matrix(extractCTDC (protein_sequence[i,2]))[4:6,1],row.names = NULL)
+      pol  <- cbind(pol, data.matrix(extractCTDC (protein_sequence[i,2]))[7:9,1],row.names = NULL)
+      polabil  <- cbind(polabil, data.matrix(extractCTDC (protein_sequence[i,2]))[10:12,1],row.names = NULL)
+      desol  <- cbind(desol, data.matrix(extractCTDC (protein_sequence[i,2]))[19:21,1],row.names = NULL)
     }
 
   }
-
+  attr_name  <- switch(type,"hydrophobicity","VWF Volume","polarity", "polarizability","desolvation")
   #different attribute data selected according to type
-  len_type = switch(type, hydro, vdm, pol, polabil, desol)
+  len_type  <- switch(type, hydro, vdm, pol, polabil, desol)
   #adding category name
-  category_name = switch(type,
+  category_name  <- switch(type,
                     c("Polar","Neutral","Hydrophobic"),
                     c("van der Waals 0-2.78 ",
                       "van der Waals 2.95-4.0",
@@ -116,7 +116,7 @@ plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
   #are adapted from the R graph gallery
   #https://www.r-graph-gallery.com/297-circular-barplot-with-groups.html
   if(circular_plot){
-    p = ggplot(data = dataf,
+    p  <- ggplot(data = dataf,
                aes(x = protein_data, y = len, fill = category)) +
       geom_bar(stat = "identity") + ylim(-1, 1) + theme_minimal() +
       theme(
@@ -124,13 +124,13 @@ plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
             axis.title = element_blank(),
             panel.grid = element_blank(), ) +
       coord_polar(start = 0) +
-      ggtitle("Protein Sequence composition")
+      ggtitle(paste("Protein Sequence composition of ",attr_name,sep = ""))
   # normal plot option
   }else{
-    p = ggplot(data=dataf,
+    p <- ggplot(data=dataf,
                aes(x=protein_data, y=len, fill=category)) +
       geom_bar(stat="identity") +
-      ggtitle("Protein Sequence composition")
+      ggtitle(paste("Protein Sequence composition of ",attr_name,sep = ""))
 
   }
 
