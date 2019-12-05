@@ -5,7 +5,7 @@
 <!-- badges: end -->
 ## Description
 
-The goal of Rppsc is to visualize the protein sequence composition regarding different composition descriptor.
+Rppsc is a package to plot protein sequence compostion. The goal of Rppsc is to visualize the protein sequence composition regarding different composition descriptor. The 5 attributes include hydrophobiciy, van der Waals volume, polarity, polarizability, and desolvation.
 
 ## Installation
 
