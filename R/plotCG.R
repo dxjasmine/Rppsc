@@ -28,18 +28,14 @@
 #' @import utils
 
 library(utils)
-
-plotCG <- function(file = "proSeq",type= 1) {
-  print(file)
-  print(type)
-
-
+filepath = "./inst/extdata/pdbSeq.csv"
+plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
 
   #prepare data: from composition double to table
   if(!(type<6 & type>0 & type %% 1== 0)) {
     stop("Invalid value. Should be integer between 1-5")
   }
-  if(!(file_test("-f",file))){
+  if(!(file_test("-f",file)) & (file != "proSeq")){
       stop("Invalid file path.")
   }
   if (!require("ggplot2")) {
@@ -105,12 +101,26 @@ plotCG <- function(file = "proSeq",type= 1) {
 
   supp=rep(pname, each=3)
   len=c(len_type)
+
+
   dataf <- data.frame(supp=rep(c(pname), each=3),category=rep(attrname, tsize),len=hydro, row.names =NULL)
+  if(circular_plot){
+    p = ggplot(data = dataf,
+               aes(x = supp, y = len, fill = category)) +
+      geom_bar(stat = "identity") + ylim(-1, 1) + theme_minimal() +
+      theme(
+            plot.title = element_text(hjust = 0.5),
+            axis.title = element_blank(),
+            panel.grid = element_blank(), ) +
+      coord_polar(start = 0) +
+      ggtitle("Protein Sequence composition")
+  }else{
+    p = ggplot(data=dataf,
+               aes(x=supp, y=len, fill=category)) +
+      geom_bar(stat="identity") +
+      ggtitle("Protein Sequence composition")
 
-  p = ggplot(data=dataf, aes(x=supp, y=len, fill=category)) +
-    geom_bar(stat="identity") +
-
-    ggtitle("Protein Sequence composition")
+  }
 
   return(p)
 
