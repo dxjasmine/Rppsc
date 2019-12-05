@@ -12,40 +12,40 @@
 #' a full composition graph given the proteins.
 #'
 #' @examples
-#' filepath = "./data/proSeq.rda"
-#' composition_plot <- plotAPCG(filepath)
+#' composition_plot <- plotAPCG(file = "proSeq")
 #' protein_seq_plot
 #'
 #' @export
 #' @import protr
 #' @import gplots
 #' @import utils
+
 library(protr)
 library(gplots)
 library(utils)
+library()
 
-plotAPCG <- function(file = "./data/proSeq.rda") {
-  if(!(file_test("-f",file))){
-    warning("Invalid file path.")
-    return()
+plotAPCG <- function(file = "proSeq") {
+  #Validate file path
+  if(!(file_test("-f",file)) & (file != "proSeq")){
+    stop("Invalid file path.")
   }
-  if (!require("protr")) {
-    install.packages("protr")
-    library(protr)
+
+  #load the default data or from validated file path
+  if (file == "proSeq"){
+    data("proSeq")
+    protein_sequence = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
+  }else{
+    raw_sequence = read.csv(filepath,header = TRUE,sep = ",")
+    protein_sequence = data.frame(lapply(raw_sequence, as.character), stringsAsFactors=FALSE)
   }
-  if (!require("gplots")) {
-    install.packages("gplots")
-    library(gplots,warn.conflicts = FALSE)
-  }
-  load(file)
-  proSeq = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
-  #proseq = read.table(file, header = TRUE, sep= ",",colClasses=c("character"))
-  tsize = nrow(proSeq)
-  colname = c("hydrophobicity","vwfVolume","polarity", "polarizability","desolvation")
+
+  tsize = nrow(protein_sequence)
+  colname = c("hydrophobicity","VWF Volume","polarity", "polarizability","desolvation")
   m = NULL
   for(i in 1:tsize ) {
-    pdb = proSeq[i,1]
-    pseq = proSeq[i,2]
+    pdb = protein_sequence[i,1]
+    pseq = protein_sequence[i,2]
 
     pdata = extractCTDC (pseq)
 
@@ -64,7 +64,8 @@ plotAPCG <- function(file = "./data/proSeq.rda") {
 
   }
   dm = as.data.frame(m)
-  mp = heatmap.2(scale(m))
+  par(mar=c(8,2,2,0.5))
+  mp = heatmap.2(scale(m), cexCol = 1, margins = c(8, 4))
 
   return(list(dm,mp))
 
