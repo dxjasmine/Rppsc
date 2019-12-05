@@ -24,3 +24,8 @@ composition_plot <- plotAPCG(file = "proSeq")
 composition_plot
 
 }
+\references{
+Xiao, N., Cao, D.-S., Zhu, M.-F., & Xu, Q.-S. (2015). protr/ProtrWeb: R package and web server for
+generating various numerical representation schemes of protein sequences. Bioinformatics, 31(11), 1857–1859.
+https://doi.org/10.1093/bioinformatics/btv042
+}

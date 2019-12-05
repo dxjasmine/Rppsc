@@ -47,7 +47,14 @@ hydrophobicity_plot #call to view the plot
 
 ## Plotting sequence composition with 5 chemical attributes.
 
+PlotAPCG() function combine the information from 5 chemical attributes and show a heatmap of the whole sequence composition.
 
+
+```{r fig.width=7,fig.height=6}
+#user can use their own csv file providing pdbid and seuquence
+#Default data --"proSeq" are also provided
+five_attribute_map <- plotAPCG(file= "proSeq")
+five_attribute_map #call to view the plot
 ```
 
 ## Rppsc shiny app

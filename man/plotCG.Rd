@@ -31,3 +31,7 @@ p <- plotCG(file = "proSeq",type= 1, circular_plot = TRUE )
 p #call p to see the plot
 
 }
+\references{
+The R Graph Gallery -Circular barplot with groups. (2018).Retrieved
+December 1, 2019, from https://www.r-graph-gallery.com/297-circular-barplot-with-groups.html
+}
