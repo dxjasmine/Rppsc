@@ -23,7 +23,6 @@
 library(protr)
 library(gplots)
 library(utils)
-library()
 
 plotAPCG <- function(file = "proSeq") {
   #Validate file path
@@ -33,7 +32,6 @@ plotAPCG <- function(file = "proSeq") {
 
   #load the default data
   if (file == "proSeq"){
-    data("proSeq")
     protein_sequence = data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
   #load data from validated file path
   }else{
@@ -68,7 +66,7 @@ plotAPCG <- function(file = "proSeq") {
     #add new data
     }else{
       subm = matrix(c(hydro,vdw, pol, polarizability, desol), nrow = 1,ncol= 5, dimnames = list(pdb, colname))
-      five_attr_info = rbind(m,subm)
+      five_attr_info = rbind(five_attr_info,subm)
     }
 
   }

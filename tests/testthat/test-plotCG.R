@@ -14,12 +14,12 @@ test_that("plotting a composiiton graph", {
 
 test_that("correct number of categories", {
 
-  file = "proSeq"
+  file_path = "proSeq"
   type = 2
 
   p <- plotCG(file = file_path, type = type)
 
-  expect_that( unique(p$data$category), equals(3))
+  expect_that(length(unique(p$data$category)), equals(3))
 })
 
 

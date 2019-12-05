@@ -31,7 +31,6 @@ library(ggplot2)
 library(protr)
 
 
-filepath = "./inst/extdata/pdbSeq.csv"
 plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
 
   #Check type value
@@ -45,7 +44,6 @@ plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
 
   #load the default data or from validated file path
   if (file == "proSeq"){
-    data("proSeq")
     protein_sequence <- data.frame(lapply(proSeq, as.character), stringsAsFactors=FALSE)
   }else{
     raw_sequence <- read.csv(filepath,header = TRUE,sep = ",")
@@ -109,7 +107,7 @@ plotCG <- function(file = "proSeq",type= 1, circular_plot = TRUE ) {
   #construct dataframe for plotting
   dataf <- data.frame(protein_data=rep(c(protein_name), each=3),
                       category=rep(category_name, protein_num),
-                      len=hydro, row.names =NULL)
+                      len=hydro, row.names =NULL,stringsAsFactors=FALSE)
 
   #circular plot option
   #Some code in circular plot on formatting (clean grid and adjust size)

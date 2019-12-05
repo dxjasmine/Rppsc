@@ -15,6 +15,10 @@ Imports:
     ggplot2,
     gplots,
     BiocManager,
-    utils
+    utils,
+    shiny
 Suggests: 
-    testthat
+    testthat,
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr

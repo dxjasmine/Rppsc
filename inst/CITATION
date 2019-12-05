@@ -4,7 +4,7 @@ citEntry(
   entry    = "Unpublished",
   title    = "R Package for Ploting Protein Sequence Compositon",
   author   = "Jiayan Wang",
-  note     = "Unpublished"
+  note     = "Unpublished",
   year     = "2019",
   textVersion = paste(
 
